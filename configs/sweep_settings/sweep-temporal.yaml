@@ -1,0 +1,23 @@
+method: "random"
+metric:
+    goal: "maximize"
+    name: "valid_loss_best"
+
+parameters:
+    # lr: { "values": [0.0001, 0.0005, 0.001] }
+    lr: { "values": [0.0001, 0.0003] }
+    batch_size: { "values": [64, 128] } # 8 is often unstable for Transformers
+    weight_decay: { "values": [0.00001, 0.0001, 0.001] }
+    # weight_decay: { "values": [0] } # issues with Adam
+    max_gradient_norm: { "values": [0.5, 1.0] } # Removed extremes
+    # max_gradient_norm: { "values": [1.00] } # Removed extremes
+
+    # Regularization (Crucial for your overfitting issue)
+    dropout: { "values": [0.1, 0.2, 0.3] }
+
+    # Capacity
+    # hidden_dim: { "values": [64, 128] } # 32 is likely too small for GNN+Attn
+    hidden_dim: { "values": [64, 128] } # 32 is likely too small for GNN+Attn
+    # num_heads: { "values": [2, 4] } # 1 head defeats the purpose of "Multi-head"
+    # 4 heads on dim 32 = 8 dim per head (very focused)
+    num_heads: { "values": [4] }

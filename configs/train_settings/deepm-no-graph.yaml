@@ -1,0 +1,208 @@
+sweep_yaml: sweep-deepm
+save_directory: models_torch
+project: dmn
+
+use_lagged_cross_section: true
+use_xatt: true
+use_gnn: false
+
+use_adamw: true
+
+use_rezero_attn: true
+use_rezero_gnn: true
+rezero_init: 0.01
+gat_concat_heads: true
+use_single_head_spatial: false
+gnn_weighted_edges: true
+alpha_lr_mult: 100.0
+
+no_bias_in_prediction_head: true
+
+prediction_head_init: "default"
+prediction_head_std:  0.001
+
+grad_accum_hidden_threshold: 64
+
+# --- Robustness objective (joint pooled Sharpe + softmin window Sharpe) ---
+use_joint_pooled_softmin_sharpe: true
+joint_softmin_lambda: 0.1
+softmin_sharpe_beta: 5.0
+softmin_sharpe_center: false
+
+ticker_reference_file: futs_and_fx
+
+data_parquet: "data_dec25.parquet"
+use_correlation_features: false
+
+test_run: false
+
+train_valid_split: 0.9
+seq_len: 84
+pre_loss_steps: 21
+
+iterations: 1000
+random_search_max_iterations: 50
+top_n_seeds: 10
+early_stopping: 100
+smooth_alpha: 0.26
+min_delta: 0.02
+val_burnin_steps: 50
+
+optimise_loss_function: 0
+
+use_transaction_costs: true
+tcost_inputs: true
+fixed_trans_cost_bp_loss: 0
+volscale_tc_loss: true
+turnover_regulariser_scaler: 0.5
+
+features:
+  - r1d
+  - r1m
+  - r3m
+  - r1y
+  - z_price_21d
+  - z_price_252d
+
+first_train_year: 1990
+final_test_year: 2025
+first_test_year: 2010
+test_start_years:
+  - 2010
+  - 2015
+  - 2020
+
+ticker_subset:
+  # --- EQUITIES (9) ---
+  - "EN" # Nasdaq
+  - "ER" # Russell 2000
+  - "ES" # S&P 500
+  - "YM" # Dow Jones
+  - "LX" # FTSE 100
+  - "CA" # CAC 40
+  - "XU" # EuroStoxx 50
+  - "NK" # Nikkei
+  - "HS" # Hang Seng
+
+  # --- RATES (9) ---
+  - "FB" # US 5yr
+  - "TU" # US 2yr
+  - "TY" # US 10yr
+  - "US" # US 30yr
+  - "DT" # Bund (Germany 10yr)
+  - "UB" # Bobl (Germany 5yr)
+  - "UZ" # Schatz (Germany 2yr)
+  - "GS" # Gilt (UK)
+  - "CB" # Canada 10yr
+
+  # --- COMMODITIES: ENERGY (5) ---
+  - "BC" # Brent Crude
+  - "BG" # Gasoil
+  - "ZB" # RBOB Gasoline
+  - "ZN" # Natural Gas
+  - "ZU" # WTI Crude
+
+  # --- COMMODITIES: METALS (5) ---
+  - "ZA" # Palladium
+  - "ZG" # Gold
+  - "ZI" # Silver
+  - "ZP" # Platinum
+  - "ZK" # Copper
+
+  # --- COMMODITIES: AGRI/LIVESTOCK (14) ---
+  - "KW" # Wheat (KC)
+  - "ZC" # Corn
+  - "ZL" # Soy Oil
+  - "ZM" # Soy Meal
+  - "ZS" # Soybeans
+  - "ZW" # Wheat (Chi)
+  - "CC" # Cocoa
+  - "CT" # Cotton
+  - "JO" # Orange Juice
+  - "KC" # Coffee
+  - "SB" # Sugar
+  - "ZF" # Feeder Cattle
+  - "ZT" # Live Cattle
+  - "ZZ" # Lean Hogs
+
+  # --- FX (8) ---
+  - "AN" # AUD
+  - "BN" # GBP
+  - "CN" # CAD
+  - "FN" # EUR
+  - "JN" # JPY
+  - "SN" # CHF
+  - "MP" # MXN
+  - "DX" # Dollar Index
+
+ticker_mapping:
+  # --- EQUITIES ---
+  EN: "NQ1 Index"
+  ER: "RTY1 Index"
+  ES: "ES1 Index"
+  YM: "DM1 Index"
+  LX: "Z 1 Index"
+  CA: "CF1 Index"
+  XU: "VG1 Index"
+  NK: "NK1 Index"
+  HS: "HI1 Index"
+
+  # --- RATES ---
+  FB: "FV1 Comdty"
+  TU: "TU1 Comdty"
+  TY: "TY1 Comdty"
+  US: "US1 Comdty"
+  DT: "RX1 Comdty"
+  UB: "OE1 Comdty"
+  UZ: "DU1 Comdty"
+  GS: "G 1 Comdty"
+  CB: "CN1 Comdty"
+
+  # --- ENERGY ---
+  BC: "CO1 Comdty"
+  BG: "QS1 Comdty"
+  ZB: "XB1 Comdty"
+  ZN: "NG1 Comdty"
+  ZU: "CL1 Comdty"
+
+  # --- METALS ---
+  ZA: "PA1 Comdty"
+  ZG: "GC1 Comdty"
+  ZI: "SI1 Comdty"
+  ZP: "PL1 Comdty"
+  ZK: "HG1 Comdty"
+
+  # --- AGRI/LIVESTOCK ---
+  KW: "KW1 Comdty"
+  ZC: "C 1 Comdty"
+  ZL: "BO1 Comdty"
+  ZM: "SM1 Comdty"
+  ZS: "S 1 Comdty"
+  ZW: "W 1 Comdty"
+  CC: "CC1 Comdty"
+  CT: "CT1 Comdty"
+  JO: "JO1 Comdty"
+  KC: "KC1 Comdty"
+  SB: "SB1 Comdty"
+  ZF: "FC1 Comdty"
+  ZT: "LC1 Comdty"
+  ZZ: "LH1 Comdty"
+
+  # --- FX ---
+  AN: "AD1 Curncy"
+  BN: "BP1 Curncy"
+  CN: "CD1 Curncy"
+  FN: "EC1 Curncy"
+  JN: "JY1 Curncy"
+  SN: "SF1 Curncy"
+  MP: "PE1 Curncy"
+  DX: "DX1 Curncy"
+
+# --------- FIXED - DON'T CHANGE BELOW THIS LINE ------------
+reference_cols:
+  - date
+  - ticker
+target: target
+targets:
+  - target
+target_vol: 15.8745078664 # warning: keep this as it is then rescale later
